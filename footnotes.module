@@ -6,14 +6,19 @@
  * automatically numbered footnotes into Drupal texts.
  */
 
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
+
 /**
  * Implementation of hook_help().
  */
-function footnotes_help($path, $arg) {
-  switch ($path) {
-    case 'admin/help#footnotes':
-      // This description is shown in the listing at admin/modules.
-      return t('Insert automatically numbered footnotes using &lt;fn&gt; or [fn] tags. Enable the footnotes text filter <a href="@url">here</a>.', array('@url' => \Drupal\Core\Url::fromRoute('filter.admin_overview')));
+function footnotes_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.footnotes':
+      return
+        t('Insert automatically numbered footnotes using &lt;fn&gt; or [fn] tags. Enable the footnotes text filter @here',
+          array('@here' => Drupal::l(t('here'), \Drupal\Core\Url::fromRoute('filter.admin_overview')))
+        );
   }
 }
 
