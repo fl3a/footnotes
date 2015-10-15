@@ -13,7 +13,7 @@ function footnotes_help($path, $arg) {
   switch ($path) {
     case 'admin/help#footnotes':
       // This description is shown in the listing at admin/modules.
-      return t('Insert automatically numbered footnotes using &lt;fn&gt; or [fn] tags. Enable the footnotes text filter <a href="@url">here</a>.', array('@url' => url('admin/config/content/formats')));
+      return t('Insert automatically numbered footnotes using &lt;fn&gt; or [fn] tags. Enable the footnotes text filter <a href="@url">here</a>.', array('@url' => \Drupal\Core\Url::fromRoute('filter.admin_overview')));
   }
 }
 
@@ -175,7 +175,16 @@ function _footnotes_replace_callback( $matches, $op = '' ) {
       // as a list
       // Drupal 7 requires we use "render element" which just introduces a wrapper
       // around the old array.
-      $str = theme('footnote_list',array('footnotes' => $store_matches));
+      // @FIXME
+// theme() has been renamed to _theme() and should NEVER be called directly.
+// Calling _theme() directly can alter the expected output and potentially
+// introduce security issues (see https://www.drupal.org/node/2195739). You
+// should use renderable arrays instead.
+// 
+// 
+// @see https://www.drupal.org/node/2195739
+// $str = theme('footnote_list',array('footnotes' => $store_matches));
+
     }
     // Reset the static variables so they can be used again next time
     $n = 0;
@@ -227,7 +236,7 @@ function _footnotes_replace_callback( $matches, $op = '' ) {
   // Create a sanitized version of $text that is suitable for using as HTML attribute
   // value. (In particular, as the title attribute to the footnote link.)
   $allowed_tags = array();
-  $text_clean = filter_xss($matches['2'], $allowed_tags);
+  $text_clean = \Drupal\Component\Utility\Xss::filter($matches['2'], $allowed_tags);
   // HTML attribute cannot contain quotes
   $text_clean = str_replace('"', "&quot;", $text_clean);
   // Remove newlines. Browsers don't support them anyway and they'll confuse line break converter in filter.module
@@ -276,7 +285,16 @@ function _footnotes_replace_callback( $matches, $op = '' ) {
   // Drupal 7 requires we use "render element" which just introduces a wrapper
   // around the old array.
   $fn = array('fn' => $fn );
-  return theme('footnote_link',$fn);
+  // @FIXME
+// theme() has been renamed to _theme() and should NEVER be called directly.
+// Calling _theme() directly can alter the expected output and potentially
+// introduce security issues (see https://www.drupal.org/node/2195739). You
+// should use renderable arrays instead.
+// 
+// 
+// @see https://www.drupal.org/node/2195739
+// return theme('footnote_link',$fn);
+
 }
 
 /**
@@ -385,7 +403,15 @@ function theme_footnote_list($footnotes) {
 * for the question leading up to it. http://drupal.org/node/80538
 */
 function footnotes_init() {
-  drupal_add_css(drupal_get_path('module', 'footnotes') . '/footnotes.css', array('group' => CSS_DEFAULT, 'every_page' => TRUE));
+  // @FIXME
+// The Assets API has totally changed. CSS, JavaScript, and libraries are now
+// attached directly to render arrays using the #attached property.
+// 
+// 
+// @see https://www.drupal.org/node/2169605
+// @see https://www.drupal.org/node/2408597
+// drupal_add_css(drupal_get_path('module', 'footnotes') . '/footnotes.css', array('group' => CSS_DEFAULT, 'every_page' => TRUE));
+
 }
 
 /**
