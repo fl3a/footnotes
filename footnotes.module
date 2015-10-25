@@ -23,24 +23,6 @@ function footnotes_help($route_name, RouteMatchInterface $route_match) {
 }
 
 /**
- * Implementation of hook_filter_info().
- */
-function footnotes_filter_info() {
-  $filters['filter_footnotes'] = array(
-    'title' => t('Footnotes'),
-    'description' => t('Insert automatically numbered footnotes using &lt;fn&gt; or [fn] tags.'),
-    'process callback' => '_footnotes_filter',
-    'settings callback' => '_footnotes_settings',
-    'default settings' => array(
-      'footnotes_collapse' => 0,
-    ), 
-    'tips callback' => '_footnotes_filter_tips',
-    'weight' => -20,
-  );
-  return $filters;
-}
-
-/**
  * Short tips are provided on the content editing screen, while
  * long tips are provided on a separate linked page. Short tips are optional,
  * but long tips are highly recommended.
