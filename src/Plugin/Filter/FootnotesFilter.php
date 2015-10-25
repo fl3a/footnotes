@@ -9,6 +9,7 @@
 namespace Drupal\footnotes\Plugin\Filter;
 
 // Base class for filters.
+use Drupal\Core\Url;
 use Drupal\filter\Plugin\FilterBase;
 
 /**
@@ -46,11 +47,10 @@ class FootnotesFilter extends FilterBase{
    */
   public function tips($long = FALSE) {
     $output = t('You can insert footnotes directly into texts with <code>[fn]This text becomes a footnote.[/fn]</code>.
-                 This will be replaced with a running number (the footnote reference) and the text within the [fn] tags
-                 will be moved to the bottom of the page (the footnote). See @link for additional usage options.',
-      //array('@link'=>'<a href="http://drupal.org/project/footnotes">' . t('Footnotes Readme page') . '</a>'));
-
-    array('@link'=> \Drupal::l(t('Footnotes Readme page'))));
+      This will be replaced with a running number (the footnote reference) and the text within the [fn] tags
+      will be moved to the bottom of the page (the footnote). See @link for additional usage options.',
+      array('@link'=> \Drupal::l(t('Footnotes Readme page'), Url::fromUri('http://drupal.org/project/footnotes')))
+    );
     return $output;
   }
 
